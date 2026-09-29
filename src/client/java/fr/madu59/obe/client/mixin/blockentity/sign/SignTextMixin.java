@@ -1,0 +1,34 @@
+package fr.madu59.obe.client.mixin.blockentity.sign;
+
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Unique;
+
+import fr.madu59.obe.client.renderer.blockentity.ext.SignTextExt;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.level.block.entity.SignText;
+
+// SignText is immutable (edits return a new instance), so whether it has a message can be computed once
+// per instance instead of streaming and stringifying every line on every frame
+@Mixin(SignText.class)
+public abstract class SignTextMixin implements SignTextExt {
+    @Unique private static final byte UNKNOWN = 0, EMPTY = 1, PRESENT = 2;
+    @Unique private byte hasMessage = UNKNOWN;
+    @Unique private byte hasFilteredMessage = UNKNOWN;
+
+    @Override
+    public boolean obe$hasMessage(boolean filtered) {
+        byte cached = filtered ? hasFilteredMessage : hasMessage;
+        if (cached == UNKNOWN) {
+            cached = EMPTY;
+            for (Component line : ((SignText) (Object) this).getMessages(filtered)) {
+                if (!line.getString().isEmpty()) {
+                    cached = PRESENT;
+                    break;
+                }
+            }
+            if (filtered) hasFilteredMessage = cached;
+            else hasMessage = cached;
+        }
+        return cached == PRESENT;
+    }
+}
