@@ -3,6 +3,7 @@ package fr.madu59.obe.client.renderer.blockentity;
 import java.util.List;
 
 import fr.madu59.obe.client.config.SettingsManager;
+import fr.madu59.obe.client.renderer.blockentity.ext.SignTextExt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
@@ -10,6 +11,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.CampfireBlockEntity;
 import net.minecraft.world.level.block.entity.ShelfBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
+import net.minecraft.world.level.block.entity.SignText;
 import net.minecraft.world.level.block.entity.SignTextSlot;
 
 public class SpecialBlockEntityRenderingManager {
@@ -41,6 +43,10 @@ public class SpecialBlockEntityRenderingManager {
 
     private static boolean isEmpty(SignBlockEntity be){
         boolean shouldFilter = Minecraft.getInstance().isTextFilteringEnabled();
-        return (be.getText(SignTextSlot.FRONT) == null || !be.getText(SignTextSlot.FRONT).hasMessage(shouldFilter)) && (be.getText(SignTextSlot.BACK) == null || !be.getText(SignTextSlot.BACK).hasMessage(shouldFilter));
+        return !hasMessage(be.getText(SignTextSlot.FRONT), shouldFilter) && !hasMessage(be.getText(SignTextSlot.BACK), shouldFilter);
+    }
+
+    private static boolean hasMessage(SignText text, boolean filtered){
+        return text != null && ((SignTextExt) text).obe$hasMessage(filtered);
     }
 }
