@@ -12,6 +12,8 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.CampfireBlockEntity;
 import net.minecraft.world.level.block.entity.ShelfBlockEntity;
 import net.minecraft.world.level.block.entity.SignBlockEntity;
+import fr.madu59.obe.client.renderer.blockentity.ext.SignTextExt;
+import net.minecraft.world.level.block.entity.SignText;
 
 public class SpecialBlockEntityRenderingManager {
     public static boolean shouldSkipRendering(BlockEntity be) {
@@ -42,6 +44,11 @@ public class SpecialBlockEntityRenderingManager {
 
     private static boolean isEmpty(SignBlockEntity be){
         LocalPlayer player = Minecraft.getInstance().player;
-        return (be.getText(true) == null || !be.getText(true).hasMessage(player)) && (be.getText(false) == null || !be.getText(false).hasMessage(player));
+        boolean shouldFilter = player.isTextFilteringEnabled();
+        return !hasMessage(be.getText(true), shouldFilter) && !hasMessage(be.getText(false), shouldFilter);
+    }
+
+    private static boolean hasMessage(SignText text, boolean filtered){
+        return text != null && ((SignTextExt) text).obe$hasMessage(filtered);
     }
 }
