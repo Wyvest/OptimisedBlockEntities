@@ -3,7 +3,7 @@ package fr.madu59.obe.client.mixin.blockentity.sign;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
-import fr.madu59.obe.client.renderer.blockentity.ext.SignTextExt;
+import fr.madu59.obe.client.renderer.blockentity.sign.ext.SignTextExt;
 import net.minecraft.world.level.block.entity.SignText;
 
 // SignText is immutable (edits return a new instance), so hasMessage can be computed once per instance

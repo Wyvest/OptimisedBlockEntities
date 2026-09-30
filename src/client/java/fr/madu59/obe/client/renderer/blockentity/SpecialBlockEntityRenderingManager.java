@@ -3,7 +3,7 @@ package fr.madu59.obe.client.renderer.blockentity;
 import java.util.List;
 
 import fr.madu59.obe.client.config.SettingsManager;
-import fr.madu59.obe.client.renderer.blockentity.ext.SignTextExt;
+import fr.madu59.obe.client.renderer.blockentity.sign.ext.SignTextExt;
 import net.minecraft.client.Minecraft;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.entity.BeaconBlockEntity;
